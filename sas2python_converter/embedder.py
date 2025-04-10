@@ -6,18 +6,15 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv()
+import streamlit as st
 
-loader = TextLoader("data/external_doc.txt")
-documents = loader.load()
-
-splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-chunks = splitter.split_documents(documents)
+api_key = st.secrets["GOOGLE_API_KEY"]
 
 embeddings = GoogleGenerativeAIEmbeddings(
     model="models/embedding-001",
-    google_api_key=os.getenv("GOOGLE_API_KEY")
+    google_api_key=api_key
 )
+
 
 db = FAISS.from_documents(chunks, embeddings)
 db.save_local("faiss_index")
