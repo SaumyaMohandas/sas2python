@@ -1,0 +1,64 @@
+SAS:
+data sales;
+   set transactions;
+   profit = revenue - cost;
+run;
+
+Python:
+df['profit'] = df['revenue'] - df['cost']
+
+---
+
+SAS:
+data result;
+   set input;
+   if marks >= 50 then status = 'Pass';
+   else status = 'Fail';
+run;
+
+Python:
+df['status'] = df['marks'].apply(lambda x: 'Pass' if x >= 50 else 'Fail')
+
+---
+
+SAS:
+proc sort data=products;
+   by category;
+run;
+
+Python:
+df.sort_values(by='category', inplace=True)
+
+---
+
+SAS:
+data new;
+   set a b;
+run;
+
+Python:
+df = pd.concat([a, b], ignore_index=True)
+
+---
+
+SAS:
+proc means data=sales;
+   var revenue;
+run;
+
+Python:
+df['revenue'].mean()
+
+---
+
+SAS:
+data final;
+   set students;
+   total = math + science + english;
+   if total >= 250 then grade = 'A';
+run;
+
+Python:
+df['total'] = df[['math', 'science', 'english']].sum(axis=1)
+df['grade'] = df['total'].apply(lambda x: 'A' if x >= 250 else None)
+
